@@ -30,8 +30,8 @@ jobs:
     - name: GitVersion
       id: gitversion
       uses: nmcc/actions-gitversion@v1
-      #with:
-      #  path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
+      with:
+        path-to-gitversion: GitVersion.exe
 
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image

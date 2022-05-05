@@ -10,10 +10,19 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: UseDotNet@2
+  displayName: 'use .net core sdk'
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
+    includePreviewVersions: true
+    
 - task: DotNetCoreCLI@2
+  displayName: Build with dotnet
   inputs:
     command: 'build'
 
 - task: DotNetCoreCLI@2
+  displayName: Test with dotnet
   inputs:
     command: 'test'

@@ -21,7 +21,7 @@ jobs:
         # Service Principal password
         service_principal_password: ${{ secrets.container_registry_password }}
         # Azure Container Registry tenant
-        tenant: 'blazorconf2022'
+        tenant: '01174e5e-d215-46f5-8464-fee370a912bb'
         # The name of the ACR, minus the .azurecr.io
         registry: 'blazorconf2022'
         # Repository to use

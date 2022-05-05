@@ -13,21 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Azure Container Registry Login
-      uses: Azure/docker-login@v1
+    #- uses: actions/checkout@v3
+    #- name: Build the Docker image
+    #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    
+    - uses: actions/checkout@v2
+      name: Check out code
+
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      name: Build & push Docker image
       with:
-        # Container registry username
-        username: ${{ secrets.container_registry_username }} 
-        # Container registry password
+        image: blazor-conf-2022
+        tags: v1, latest
+        registry: blazorconf2022.azurecr.io
+        username: ${{ secrets.container_registry_username }}
         password: ${{ secrets.container_registry_password }}
-        # Container registry server url
-        login-server: 'blazorconf2022.azurecr.io'
-        
-    - name: Azure Container Registry Build
-      uses: Azure/acr-build@v1
-      with:
-        repository: 'blazor-conf-2022'
-        # Github access token for private repositories
-        git_access_token: ${{ secrets.GITHUB_TOKEN }}
-        # Docker image tag, default to the commit SHA
-        tag: 'latest'

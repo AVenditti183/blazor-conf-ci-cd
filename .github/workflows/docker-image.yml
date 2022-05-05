@@ -13,16 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username: ${{ secrets.container_registry_username }} 
+        # Container registry password
+        password: ${{ secrets.container_registry_password }}
+        # Container registry server url
+        login-server: 'blazorconf2022.azurecr.io'
+        
     - name: Azure Container Registry Build
       uses: Azure/acr-build@v1
       with:
-        # Service Principal with Contributor role on the ACR
-        service_principal: ${{ secrets.container_registry_username }}
-        # Service Principal password
-        service_principal_password: ${{ secrets.container_registry_password }}
-        # The name of the ACR, minus the .azurecr.io
-        registry: 'blazorconf2022'
-        # Repository to use
         repository: 'blazor-conf-2022'
         # Github access token for private repositories
         git_access_token: ${{ secrets.GITHUB_TOKEN }}

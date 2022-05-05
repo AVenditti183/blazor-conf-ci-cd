@@ -8,14 +8,10 @@ on:
 
 jobs:
 
-  build:
-
+  Deploy:
     runs-on: ubuntu-latest
 
     steps:
-    #- uses: actions/checkout@v3
-    #- name: Build the Docker image
-    #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     
     - name: Checkout
       uses: actions/checkout@v3
@@ -49,16 +45,7 @@ jobs:
           blazorconf2022.azurecr.io/blazor-conf-2022:${{ steps.gitversion.outputs.SemVer }}
           blazorconf2022.azurecr.io/blazor-conf-2022:latest
         push: true
-
-    # - uses: mr-smithers-excellent/docker-build-push@v5
-    #   name: Build & push Docker image
-    #   with:
-    #     image: blazor-conf-2022
-    #     tags: ${{ steps.gitversion.outputs.SemVer }}, latest
-    #     registry: blazorconf2022.azurecr.io
-    #     username: ${{ secrets.container_registry_username }}
-    #     password: ${{ secrets.container_registry_password }}
-
+        
     - name: Create tag repository
       run: |
         git tag "${{ steps.gitversion.outputs.SemVer }}"

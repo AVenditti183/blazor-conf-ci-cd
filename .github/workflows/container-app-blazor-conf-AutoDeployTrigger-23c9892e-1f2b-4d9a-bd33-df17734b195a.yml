@@ -3,12 +3,12 @@ name: Trigger auto deployment for containerapp container-app-blazor-conf
 # When this action will be executed
 on:
   # Automatically trigger it when detected changes in repo
-  push:
-    branches: 
-      [ master ]
-    paths:
-    - '**'
-    - '.github/workflows/container-app-blazor-conf-AutoDeployTrigger-23c9892e-1f2b-4d9a-bd33-df17734b195a.yml'
+  # push:
+  #   branches: 
+  #     [ master ]
+  #   paths:
+  #   - '**'
+  #   - '.github/workflows/container-app-blazor-conf-AutoDeployTrigger-23c9892e-1f2b-4d9a-bd33-df17734b195a.yml'
 
   # Allow mannually trigger 
   workflow_dispatch:      

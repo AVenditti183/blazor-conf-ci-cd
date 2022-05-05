@@ -41,9 +41,10 @@ jobs:
     - name: Build and push core image
       uses: docker/build-push-action@v2
       with:
-        image: blazor-conf-2022
         context: .
-        tags: ${{ steps.gitversion.outputs.SemVer }}, latest
+        tags: |
+          blazor-conf-2022:${{ steps.gitversion.outputs.SemVer }}
+          blazor-conf-2022:latest
         push: true
 
     # - uses: mr-smithers-excellent/docker-build-push@v5

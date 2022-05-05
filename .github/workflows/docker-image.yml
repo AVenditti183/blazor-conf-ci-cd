@@ -35,7 +35,7 @@ jobs:
       name: Build & push Docker image
       with:
         image: blazor-conf-2022
-        tags: ${{ steps.gitversion.outputs.SemVer }}, latest
+        tags: ${{ steps.gitversion.outputs.FullSemVer }}, latest
         registry: blazorconf2022.azurecr.io
         username: ${{ secrets.container_registry_username }}
         password: ${{ secrets.container_registry_password }}

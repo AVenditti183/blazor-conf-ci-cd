@@ -21,4 +21,5 @@ RUN dotnet publish "blazor-conf-ci-cd.Server.csproj" -c Release -o /app/publish 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_URLS http://*:80
 ENTRYPOINT ["dotnet", "blazor-conf-ci-cd.Server.dll"]

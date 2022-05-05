@@ -21,6 +21,7 @@ jobs:
       name: Check out code
     
     - name: GitHub Action to Setup GitVersion
+      id: gitversion
       # You may pin to the exact commit or the version.
       # uses: StanleyGoldman/setup-gitversion@a374f5e1b8c33fb6efd03c402cb511f02eafa245
       uses: StanleyGoldman/setup-gitversion@v1.0.1

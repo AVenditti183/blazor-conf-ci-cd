@@ -17,9 +17,9 @@ jobs:
       uses: Azure/acr-build@v1
       with:
         # Service Principal with Contributor role on the ACR
-        service_principal: ${{ container_registry_username }}
+        service_principal: ${{ secrets.container_registry_username }}
         # Service Principal password
-        service_principal_password: ${{ container_registry_password }}
+        service_principal_password: ${{ secrets.container_registry_password }}
         # Azure Container Registry tenant
         tenant: 'blazorconf2022'
         # The name of the ACR, minus the .azurecr.io

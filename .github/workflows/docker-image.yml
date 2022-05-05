@@ -20,14 +20,11 @@ jobs:
     - uses: actions/checkout@v2
       name: Check out code
     
-    - name: GitHub Action to Setup GitVersion
+    - uses: actions/setup-gitversion@v1.0.0
       id: gitversion
-      # You may pin to the exact commit or the version.
-      # uses: StanleyGoldman/setup-gitversion@a374f5e1b8c33fb6efd03c402cb511f02eafa245
-      uses: StanleyGoldman/setup-gitversion@v1.0.1
       with:
-        gitversion-version: '5.x'
-        run-gitversion: true
+        gitversion-version: 5.1.1
+    - run: GitVersion
 
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image

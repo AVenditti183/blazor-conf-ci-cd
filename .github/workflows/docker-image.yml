@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Azure Container Registry Build
+      uses: Azure/acr-build@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ container_registry_username }}
+        # Service Principal password
+        service_principal_password: ${{ container_registry_password }}
+        # Azure Container Registry tenant
+        tenant: 'blazorconf2022'
+        # The name of the ACR, minus the .azurecr.io
+        registry: 'blazorconf2022'
+        # Repository to use
+        repository: 'blazor-conf-2022'
+        # Github access token for private repositories
+        git_access_token: ${{ secrets.GITHUB_TOKEN }}
+        # Docker image tag, default to the commit SHA
+        tag: 'latest'

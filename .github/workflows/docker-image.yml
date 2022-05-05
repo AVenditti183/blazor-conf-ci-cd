@@ -17,14 +17,19 @@ jobs:
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     
-    - uses: actions/checkout@v2
-      name: Check out code
-
-    - name: GitVersion
-      id: gitversion
-      uses: nmcc/actions/gitversion@v1
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
-        path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
+        fetch-depth: 0
+      
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+        
+    - name: Determine Version
+      id:   gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.7
 
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image

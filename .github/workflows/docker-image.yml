@@ -19,12 +19,18 @@ jobs:
     
     - uses: actions/checkout@v2
       name: Check out code
-
-    - name: GitVersion
+    
+    - name: GitHub Action to Setup GitVersion
       id: gitversion
-      uses: nmcc/actions/gitversion@v1
-      with:
-        path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
+      # You may pin to the exact commit or the version.
+      # uses: StanleyGoldman/setup-gitversion@a374f5e1b8c33fb6efd03c402cb511f02eafa245
+      uses: StanleyGoldman/setup-gitversion@v1.0.1
+    
+    #- name: GitVersion
+    #  id: gitversion
+    #  uses: nmcc/actions-gitversion@v1
+    #  with:
+    #    path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
 
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image

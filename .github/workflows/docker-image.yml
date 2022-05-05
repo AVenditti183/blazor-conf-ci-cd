@@ -20,11 +20,17 @@ jobs:
     - uses: actions/checkout@v2
       name: Check out code
 
+    - name: GitVersion
+      id: gitversion
+      uses: nmcc/actions/gitversion@v1
+      with:
+        path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
+
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image
       with:
         image: blazor-conf-2022
-        tags: v1, latest
+        tags: ${{ steps.gitversion.outputs.SemVer }}, latest
         registry: blazorconf2022.azurecr.io
         username: ${{ secrets.container_registry_username }}
         password: ${{ secrets.container_registry_password }}

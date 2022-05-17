@@ -38,17 +38,21 @@ jobs:
   dependsOn: [Build]
   pool:
     vmImage: ubuntu-latest
-  
+
   steps:
-  - task: gitversion/setup@0
-    displayName: Setup GitVersion
-    inputs:
-      versionSpec: '5.x'
+    - task: GitVersion@5
+      inputs:
+        versionSpec: '5.x'
+
+  #- task: gitversion/setup@0
+  #  displayName: Setup GitVersion
+  #  inputs:
+  #    versionSpec: '5.x'
     
-  - task: gitversion/execute@0
-    displayName: Get Next Version Number
+  #- task: gitversion/execute@0
+  #  displayName: Get Next Version Number
     
-  - task: gittagloader@1
-    inputs:
-      filter: 'Latest'
-      lines: '1'
+  #- task: gittagloader@1
+  #  inputs:
+  #    filter: 'Latest'
+  #    lines: '1'

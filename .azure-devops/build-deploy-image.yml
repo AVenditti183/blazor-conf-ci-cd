@@ -53,7 +53,7 @@ jobs:
   - task: Bash@3
     inputs:
       targetType: 'inline'
-      script: echo $[ dependencies.Build.outputs[''AssignVersion.version''] ];
+      script: echo $[ dependencies.Build.outputs['AssignVersion.version'] ];
 
   #- task: gitversion/setup@0
   #  displayName: Setup GitVersion

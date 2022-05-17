@@ -40,8 +40,8 @@ jobs:
         
       - name: Create tag repository
         run: |
-          git tag "${{ needs.build.outputs.version }}"
-          git push origin "${{ needs.build.outputs.version }}"
+          git tag "${{ steps.gitversion.outputs.SemVer }}"
+          git push origin "${{ steps.gitversion.outputs.SemVer }}"
           
     outputs:
       version: ${{ steps.gitversion.outputs.SemVer}}

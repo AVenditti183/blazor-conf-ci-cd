@@ -40,6 +40,15 @@ jobs:
     vmImage: ubuntu-latest
   
   steps:
-  - task: GitVersion@5
+  - task: gitversion/setup@0
+    displayName: Setup GitVersion
     inputs:
-      runtime: 'core'
+      versionSpec: '5.x'
+    
+  - task: gitversion/execute@0
+    displayName: Get Next Version Number
+    
+  - task: gittagloader@1
+    inputs:
+      filter: 'Latest'
+      lines: '1'

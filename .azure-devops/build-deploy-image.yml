@@ -41,7 +41,9 @@ jobs:
     name: AssignVersion
     inputs:
       targetType: 'inline'
-      script: Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(GitVersion.SemVer)"
+      script: | 
+        Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(GitVersion.SemVer)"
+        echo $(GitVersion.SemVer)
 
 - job: Deploy
   displayName: Deploy

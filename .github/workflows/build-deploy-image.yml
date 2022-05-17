@@ -34,6 +34,9 @@ jobs:
 
       - name: test with dotnet
         run: dotnet test
+    outputs:
+      version: ${{ steps.gitversion.outputs.SemVer}}
+      
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,11 +63,11 @@ jobs:
       with:
         context: .
         tags: |
-          blazorconf2022.azurecr.io/blazor-conf-2022:${{ jobs.build.steps.gitversion.outputs.SemVer }}
+          blazorconf2022.azurecr.io/blazor-conf-2022:${{ needs.build.outputs.version }}
           blazorconf2022.azurecr.io/blazor-conf-2022:latest
         push: true
 
     - name: Create tag repository
       run: |
-        git tag "${{ jobs.build.steps.gitversion.outputs.SemVer }}"
-        git push origin "${{ jobs.build.steps.gitversion.outputs.SemVer }}"
+        git tag "${{ needs.build.outputs.version }}"
+        git push origin "${{ needs.build.outputs.version }}"

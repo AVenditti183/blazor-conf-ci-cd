@@ -50,11 +50,11 @@ jobs:
         with:
           name: .net-app
 
-      - name: Deploy to Azure Web App
+      - name: Deploy to Azure Web App dev
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'blazorconf2022-ci-cd-code'
-          slot-name: 'Production'
+          slot-name: 'dev'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7F71FC6D280D4B1CB27C05FA55BE72E2 }}
           package: .

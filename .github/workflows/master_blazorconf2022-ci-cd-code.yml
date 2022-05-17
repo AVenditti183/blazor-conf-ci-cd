@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'blazorconf2022-ci-cd-code/dev'
           slot-name: 'dev'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7F71FC6D280D4B1CB27C05FA55BE72E2 }}
+          publish-profile: ${{ secrets.PUBLISHPROFILE_DEV }}
           package: .

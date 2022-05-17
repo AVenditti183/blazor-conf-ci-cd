@@ -74,9 +74,30 @@ jobs:
           blazorconf2022.azurecr.io/blazor-conf-2022:latest
         push: true
 
-  deploy:
+  deploy-stage:
     runs-on: ubuntu-latest
     needs: [ build, buildAndPusImage ]
+    environment:
+      name: 'Stage'
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CONTAINERAPPBLAZORCONF_AZURE_CREDENTIALS }}
+
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az webapp config container set --name blazorconf2022-ci-cd-container2 --slot stage --resource-group BlazorConf2022 --docker-custom-image-name blazorconf2022.azurecr.io/blazor-conf-2022:${{ needs.build.outputs.version }}
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: [ build, buildAndPusImage , deploy-stage ]
+    environment:
+      name: 'Production'
 
     steps:
       - name: Azure Login

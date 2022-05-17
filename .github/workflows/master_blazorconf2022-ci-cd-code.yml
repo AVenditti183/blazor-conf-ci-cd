@@ -37,7 +37,7 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -56,5 +56,49 @@ jobs:
         with:
           app-name: 'blazorconf2022-ci-cd-code'
           slot-name: 'dev'
+          publish-profile: ${{ secrets.PUBLISHPROFILE }}
+          package: .
+
+  deploy-stage:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Stage'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
+
+      - name: Deploy to Azure Web App dev
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'blazorconf2022-ci-cd-code'
+          slot-name: 'Stage'
+          publish-profile: ${{ secrets.PUBLISHPROFILE_DEV }}
+          package: .
+          
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
+
+      - name: Deploy to Azure Web App dev
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'blazorconf2022-ci-cd-code'
+          slot-name: 'Production'
           publish-profile: ${{ secrets.PUBLISHPROFILE_DEV }}
           package: .

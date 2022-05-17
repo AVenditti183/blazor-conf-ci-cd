@@ -47,7 +47,7 @@ jobs:
       version: ${{ steps.gitversion.outputs.SemVer}}
       
 
-  deploy:
+  buildAndPusImage:
     runs-on: ubuntu-latest
     needs: build
 
@@ -73,3 +73,20 @@ jobs:
           blazorconf2022.azurecr.io/blazor-conf-2022:${{ needs.build.outputs.version }}
           blazorconf2022.azurecr.io/blazor-conf-2022:latest
         push: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ build, buildAndPusImage ]
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CONTAINERAPPBLAZORCONF_AZURE_CREDENTIALS }}
+
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az webapp config container set --name blazorconf2022-ci-cd-container2 --resource-group BlazorConf2022 --docker-custom-image-name blazorconf2022.azurecr.io/blazor-conf-2022:${{ needs.build.outputs.version }}

@@ -44,9 +44,15 @@ jobs:
       script: | 
         Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(GitVersion.SemVer)"
         echo $(GitVersion.SemVer)
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        git tag $(GitVersion.SemVer)
+        git push origin $(GitVersion.SemVer)
 
-- job: Deploy
-  displayName: Deploy
+- job: BuildAndPush
+  displayName: BuildAndPush
   dependsOn: [Build]
   pool:
     vmImage: ubuntu-latest
@@ -58,7 +64,6 @@ jobs:
     inputs:
       targetType: 'inline'
       script: echo $(dockerGitVersion)
-      # echo $[ dependencies.Build.outputs['AssignVersion.version'] ];
 
   - task: Docker@2
     displayName: BuildAndPush
@@ -70,15 +75,23 @@ jobs:
         $(dockerGitVersion)
         latest
 
-  #- task: gitversion/setup@0
-  #  displayName: Setup GitVersion
-  #  inputs:
-  #    versionSpec: '5.x'
+- job: 
+  displayName: BuildAndPush
+  environment: 'Stage'
+  dependsOn: [BuildAndPush]
+  pool:
+    vmImage: ubuntu-latest
+  variables: 
+    dockerGitVersion: $[ dependencies.Build.outputs['AssignVersion.version'] ]
     
-  #- task: gitversion/execute@0
-  #  displayName: Get Next Version Number
-    
-  #- task: gittagloader@1
-  #  inputs:
-  #    filter: 'Latest'
-  #    lines: '1'
+  steps:
+  - task: AzureWebAppContainer@1
+    inputs:
+      azureSubscription: 'Visual Studio Enterprise Subscription(659021ae-a62f-4259-adb4-5a094b114490)'
+      appName: 'blazorconf2022-ci-cd-container2'
+      deployToSlotOrASE: true
+      resourceGroupName: 'BlazorConf2022'
+      slotName: 'Stage'
+      containers: 'blazorconf2022.azurecr.io/blazor-conf-2022-devops:$(dockerGitVersion)'
+
+

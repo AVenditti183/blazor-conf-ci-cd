@@ -51,7 +51,7 @@ stages:
         targetType: 'inline'
         script: |
           git tag $(GitVersion.SemVer)
-          git push origin $(GitVersion.SemVer)
+          git push origin --tags $(GitVersion.SemVer)
 
   - job: BuildAndPush
     displayName: BuildAndPush

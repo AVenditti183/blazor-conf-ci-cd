@@ -50,12 +50,15 @@ jobs:
   dependsOn: [Build]
   pool:
     vmImage: ubuntu-latest
+  variables:
+      dockerGitVersion: $[ dependencies.Build.Build.outputs['AssignVersion.version'] ]
 
   steps:
   - task: Bash@3
     inputs:
       targetType: 'inline'
-      script: echo $[ dependencies.Build.outputs['AssignVersion.version'] ];
+      script: echo $(dockerGitVersion)
+      # echo $[ dependencies.Build.outputs['AssignVersion.version'] ];
 
   #- task: gitversion/setup@0
   #  displayName: Setup GitVersion

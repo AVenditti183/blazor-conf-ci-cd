@@ -51,7 +51,7 @@ jobs:
   pool:
     vmImage: ubuntu-latest
   variables:
-      dockerGitVersion: $[ dependencies.Build.Build.outputs['AssignVersion.version'] ]
+      dockerGitVersion: $[ dependencies.Build.outputs['AssignVersion.version'] ]
 
   steps:
   - task: Bash@3

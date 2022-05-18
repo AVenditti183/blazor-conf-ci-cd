@@ -79,7 +79,7 @@ stages:
 
 - stage: DeployStage
   displayName: Deploy Stage
-  dependsOn: [BuildAndPush]
+  dependsOn: [Build]
   variables: 
     dockerGitVersion: $[ dependencies.Build.outputs['AssignVersion.version'] ]
   pool:

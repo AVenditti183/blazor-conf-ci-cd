@@ -18,6 +18,9 @@ stages:
       vmImage: ubuntu-latest
     
     steps:
+    - checkout: self
+      persistCredentials: true
+      
     - task: GitVersion@5
       inputs:
         versionSpec: '5.x'
@@ -50,6 +53,8 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
+          git config --global user.email "antonio.venditti@hotmail.it"
+          git config --global user.name "Antonio Venditti"
           git tag $(GitVersion.SemVer)
           git push origin --tags $(GitVersion.SemVer)
 

@@ -110,4 +110,29 @@ stages:
               slotName: 'Stage'
               containers: 'blazorconf2022.azurecr.io/blazor-conf-2022-devops:$(dockerGitVersion)'
 
+- stage: DeployProd
+  displayName: Deploy Production
+  dependsOn: [Build, DeployStage]
+  variables: 
+    dockerGitVersion: $[ stageDependencies.Build.Build.outputs['AssignVersion.version'] ]
+  pool:
+    vmImage: ubuntu-latest
+  
+  jobs:
+  - deployment: DeployStage
+    environment: 'Production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: echo $(dockerGitVersion)
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: 'Visual Studio Enterprise Subscription(659021ae-a62f-4259-adb4-5a094b114490)'
+              appName: 'blazorconf2022-ci-cd-container2'
+              containers: 'blazorconf2022.azurecr.io/blazor-conf-2022-devops:$(dockerGitVersion)'
+
 

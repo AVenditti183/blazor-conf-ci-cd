@@ -26,3 +26,18 @@ steps:
   displayName: Test with dotnet
   inputs:
     command: 'test'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: 'blazor-conf-ci-cd/Server/blazor-conf-ci-cd.Server.csproj'
+    custom: 'publish'
+    publishWebProjects: False
+    zipAfterPublish: True
+    arguments: '-c release -o $(build.artifactStagingDirectory) --no-restore'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'web'
+    publishLocation: 'Container'

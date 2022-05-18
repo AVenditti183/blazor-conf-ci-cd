@@ -67,11 +67,6 @@ stages:
         dockerGitVersion: $[ dependencies.Build.outputs['AssignVersion.version'] ]
 
     steps:
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: echo $(dockerGitVersion)
-
     - task: Docker@2
       displayName: BuildAndPush
       inputs:
@@ -97,10 +92,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: echo $(dockerGitVersion)
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Visual Studio Enterprise Subscription(659021ae-a62f-4259-adb4-5a094b114490)'
@@ -125,10 +116,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: echo $(dockerGitVersion)
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Visual Studio Enterprise Subscription(659021ae-a62f-4259-adb4-5a094b114490)'

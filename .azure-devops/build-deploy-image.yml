@@ -17,10 +17,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
     
-    steps:
-    - checkout: self
-      persistCredentials: true
-      
+    steps:      
     - task: GitVersion@5
       inputs:
         versionSpec: '5.x'
@@ -49,14 +46,6 @@ stages:
         script: | 
           Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(GitVersion.SemVer)"
           echo $(GitVersion.SemVer)
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          git config --global user.email "antonio.venditti@hotmail.it"
-          git config --global user.name "Antonio Venditti"
-          git tag $(GitVersion.SemVer)
-          git push origin --tags $(GitVersion.SemVer)
 
   - job: BuildAndPush
     displayName: BuildAndPush

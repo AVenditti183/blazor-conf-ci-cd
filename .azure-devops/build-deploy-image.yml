@@ -65,7 +65,6 @@ jobs:
     inputs:
       command: buildAndPush
       repository: 'blazor-conf-2022-devops'
-      dockerfile: .
       containerRegistry: 'blazorconfregistry'
       tags: |
         $(dockerGitVersion)

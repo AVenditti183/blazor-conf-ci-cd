@@ -1,0 +1,43 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+#trigger:
+#- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: UseDotNet@2
+  displayName: 'use .net core sdk'
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
+    includePreviewVersions: true
+    
+- task: DotNetCoreCLI@2
+  displayName: Build with dotnet
+  inputs:
+    command: 'build'
+
+- task: DotNetCoreCLI@2
+  displayName: Test with dotnet
+  inputs:
+    command: 'test'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: 'blazor-conf-ci-cd/Server/blazor-conf-ci-cd.Server.csproj'
+    custom: 'publish'
+    publishWebProjects: False
+    zipAfterPublish: True
+    arguments: '-c release -o $(build.artifactStagingDirectory) --no-restore'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'web'
+    publishLocation: 'Container'

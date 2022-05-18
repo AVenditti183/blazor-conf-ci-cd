@@ -60,6 +60,17 @@ jobs:
       script: echo $(dockerGitVersion)
       # echo $[ dependencies.Build.outputs['AssignVersion.version'] ];
 
+  - task: Docker@2
+    displayName: BuildAndPush
+    inputs:
+      command: buildAndPush
+      repository: 'blazor-conf-2022-devops'
+      dockerfile: .
+      containerRegistry: 'blazorconfregistry'
+      tags: |
+        $(dockerGitVersion)
+        latest
+
   #- task: gitversion/setup@0
   #  displayName: Setup GitVersion
   #  inputs:
